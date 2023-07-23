@@ -1,0 +1,23 @@
+.form-wrapper{
+    border: 2px solid rgb(175, 217, 242);
+    border-radius: 25px;
+    margin-top: 50px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    
+}
+
+.form__input{
+margin-bottom: 10px;
+}
+
+.form__button{
+    width: 150px;
+    margin-top: 15px;
+}
