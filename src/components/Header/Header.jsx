@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
 import "./Header.css";
 
-const Header = ({ handleConnect }) => {
+const Header = ({ handleConnect, userWallet, balance }) => {
+  let wallet;
+  if (userWallet) {
+    wallet = `${userWallet.slice(0, 4)}...${userWallet.slice(-4)}`;
+  }
+
   return (
     <header className="header">
       <a className="logo">
@@ -13,7 +18,14 @@ const Header = ({ handleConnect }) => {
           handleConnect();
         }}
       >
-        Connect wallet
+        {userWallet ? (
+          <div>
+            <span style={{ marginRight: "5px" }}>{balance}</span>
+            <span>{wallet}</span>
+          </div>
+        ) : (
+          "Connect wallet"
+        )}
       </button>
     </header>
   );
