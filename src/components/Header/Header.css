@@ -1,8 +1,18 @@
-.header{
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
-  border: 2px solid antiquewhite;
+  border-bottom: 2px solid antiquewhite;
+  padding-bottom: 10px;
 }
+
+.connect-button{
+  border: 2px solid rgb(175, 217, 242)
+}
+/* .connect-button:hover{
+  border: 2px solid rgb(147, 203, 235);
+  background-color: antiquewhite;
+  
+} */
 

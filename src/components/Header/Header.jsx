@@ -4,7 +4,7 @@ import "./Header.css";
 const Header = ({ handleConnect, userWallet, balance }) => {
   let wallet;
   if (userWallet) {
-    wallet = `${userWallet.slice(0, 4)}...${userWallet.slice(-4)}`;
+    wallet = `${userWallet.slice(0, 5)}...${userWallet.slice(-4)}`;
   }
 
   return (
@@ -14,6 +14,7 @@ const Header = ({ handleConnect, userWallet, balance }) => {
         LOGO
       </a>
       <button
+        className="connect-button"
         onClick={() => {
           handleConnect();
         }}

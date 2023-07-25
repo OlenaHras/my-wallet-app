@@ -1,15 +1,73 @@
+import { useState } from "react";
+import { Dna } from "react-loader-spinner";
 import "./Form.css";
+import { toast } from "react-hot-toast";
 
-const Form = () => {
+// eslint-disable-next-line react/prop-types
+const Form = ({ onSubmit, isLoading, isConnected }) => {
+  const [recipientWallet, setRecipientWallet] = useState("");
+  const [tokens, setTokens] = useState("");
+
+  const addressValidation = (recipientWallet) => {
+    const regexp = /^0x[0-9A-F]{40}$/i;
+    return regexp.test(recipientWallet);
+  };
+
+  const handleChanges = (e) => {
+    if (e.target.id === "wallet") {
+      setRecipientWallet(e.target.value);
+    } else {
+      setTokens(e.target.value);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const isValid = await addressValidation(recipientWallet);
+    if (isValid) {
+      onSubmit({ recipientWallet, tokens });
+      setRecipientWallet("");
+      setTokens("");
+      return;
+    }
+    toast.error("Wallet address is not correct");
+  };
   return (
     <div className="form-wrapper">
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <label htmlFor="wallet">Wallet address</label>
-        <input className="form__input" type="text" id="wallet" name="wallet" />
-        <label htmlFor="balans">Tokens</label>
-        <input className="form__input" type="text" id="balans" name="balans" />
-        <button className="form__button" type="submit">
-          Click
+        <input
+          className="form__input"
+          onChange={handleChanges}
+          type="text"
+          id="wallet"
+          value={recipientWallet}
+          name="recipientWallet"
+          autoComplete="false"
+        />
+        <label htmlFor="tokens">Tokens</label>
+        <input
+          className="form__input"
+          onChange={handleChanges}
+          type="text"
+          id="tokens"
+          value={tokens}
+          name="tokens"
+          autoComplete="false"
+        />
+        <button className="form__button" type="submit" disabled={!isConnected}>
+          {isLoading ? (
+            <Dna
+              visible={true}
+              height="40"
+              width="50"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="dna-wrapper"
+            />
+          ) : (
+            <p>Send</p>
+          )}
         </button>
       </form>
     </div>
