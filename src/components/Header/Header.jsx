@@ -10,7 +10,12 @@ const Header = ({ handleConnect, userWallet, balance }) => {
   return (
     <header className="header">
       <a className="logo">
-        <img src="/public/wallet.png" alt="logo" width="50px" height="50px" />
+        <img
+          src="../../../public/wallet.png"
+          alt="logo"
+          width="50px"
+          height="50px"
+        />
       </a>
       <button
         className="connect-button"
