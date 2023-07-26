@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Dna } from "react-loader-spinner";
+
 import "./Form.css";
 import { toast } from "react-hot-toast";
+import Loader from "../Loader/Loader";
 
 // eslint-disable-next-line react/prop-types
 const Form = ({ onSubmit, isLoading, isConnected }) => {
@@ -56,18 +57,7 @@ const Form = ({ onSubmit, isLoading, isConnected }) => {
           autoComplete="false"
         />
         <button className="form__button" type="submit" disabled={!isConnected}>
-          {isLoading ? (
-            <Dna
-              visible={true}
-              height="40"
-              width="50"
-              ariaLabel="dna-loading"
-              wrapperStyle={{}}
-              wrapperClass="dna-wrapper"
-            />
-          ) : (
-            <p>Send</p>
-          )}
+          {isConnected && isLoading ? <Loader /> : <p>Send</p>}
         </button>
       </form>
     </div>

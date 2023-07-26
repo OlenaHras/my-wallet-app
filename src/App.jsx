@@ -17,17 +17,20 @@ function App() {
     const provider = await detectEthereumProvider();
     if (!isConnected) {
       if (provider) {
+        setIsLoading(true);
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((account) => {
             setUserAccount(account[0]);
             getBalance(account[0]);
+            setIsLoading(false);
           });
         setIsConnected(true);
         window.ethereum.on("accountChanged", onConnect);
         window.ethereum.on("chainChanged", chainChangedHandler);
       } else {
         toast.error("Please install MetaMask!");
+        setIsLoading(false);
       }
     } else {
       setIsConnected(false);
@@ -74,21 +77,6 @@ function App() {
 
         toast.error("Oops...something went wrong! Try again");
       });
-    // try {
-    //   setIsLoading(true);
-    //   const transaction = await wallet.sendTransaction({
-    //     to: transactionInfo.recipientWallet,
-    //     value: ethers.utils.parseEther(transactionInfo.tokens),
-    //   });
-    //   await transaction.wait();
-    //   setIsLoading(false);
-    //   getBalance(userAccount);
-    //   toast.success("Transaction is success!");
-    //   console.log(transaction);
-    // } catch (error) {
-    //   setIsLoading(false);
-    //   toast.error("Oops...something went wrong! Try again");
-    // }
   };
 
   return (
@@ -97,6 +85,7 @@ function App() {
         handleConnect={onConnect}
         userWallet={userAccount}
         balance={balance}
+        isLoading={isLoading}
       />
       <Form
         onSubmit={handleTransaction}

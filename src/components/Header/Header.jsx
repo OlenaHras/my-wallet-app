@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import "./Header.css";
-import img from "../../../public/wallet.png";
-const Header = ({ handleConnect, userWallet, balance }) => {
+import img from "../../assets/wallet.png";
+import Loader from "../Loader/Loader";
+const Header = ({ handleConnect, userWallet, balance, isLoading }) => {
   let wallet;
   if (userWallet) {
     wallet = `${userWallet.slice(0, 5)}...${userWallet.slice(-4)}`;
@@ -18,7 +19,9 @@ const Header = ({ handleConnect, userWallet, balance }) => {
           handleConnect();
         }}
       >
-        {userWallet && balance ? (
+        {isLoading ? (
+          <Loader />
+        ) : userWallet && balance ? (
           <div>
             <span style={{ marginRight: "5px" }}>{balance}</span>
             <span>{wallet}</span>
