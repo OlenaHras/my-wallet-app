@@ -11,7 +11,7 @@ const Header = ({ handleConnect, userWallet, balance }) => {
     <header className="header">
       <a className="logo">
         <img
-          src="../../../public/wallet.png"
+          src="../../assets/wallet.png"
           alt="logo"
           width="50px"
           height="50px"
