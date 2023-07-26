@@ -6,7 +6,6 @@ import toast, { Toaster } from "react-hot-toast";
 import "./App.css";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
-// const provider = new ethers.providers.Web3Provider(window.ethereum);
 
 function App() {
   const [userAccount, setUserAccount] = useState(null);
@@ -28,11 +27,12 @@ function App() {
         window.ethereum.on("accountChanged", onConnect);
         window.ethereum.on("chainChanged", chainChangedHandler);
       } else {
-        toast.custom(<div>Please connect to MetaMask.</div>);
+        toast.error("Please install MetaMask!");
       }
     } else {
       setIsConnected(false);
-      window.location.reload();
+      chainChangedHandler();
+      // window.location.reload();
     }
   };
 
@@ -41,7 +41,6 @@ function App() {
   };
 
   const getBalance = async (account) => {
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
     const balance = await window.ethereum.request({
       method: "eth_getBalance",
       params: [account, "latest"],
@@ -70,7 +69,6 @@ function App() {
       .then(() => {
         setIsLoading(false);
         toast.success("Transaction is success!");
-        // console.log(txHash);
       })
       .catch(() => {
         setIsLoading(false);
@@ -100,14 +98,32 @@ function App() {
         handleConnect={onConnect}
         userWallet={userAccount}
         balance={balance}
-        // isConnected={isConnected}
       />
       <Form
         onSubmit={handleTransaction}
         isLoading={isLoading}
         isConnected={isConnected}
       />
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          className: "",
+          style: {
+            border: "1px solid #713200",
+            padding: "16px",
+            color: "#713200",
+          },
+          success: {
+            style: {
+              background: "#BEF4C9",
+            },
+          },
+          error: {
+            style: {
+              background: "#F7D4DD",
+            },
+          },
+        }}
+      />
     </div>
   );
 }
