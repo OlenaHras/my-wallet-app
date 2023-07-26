@@ -7,7 +7,7 @@ import "./App.css";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
 // const provider = new ethers.providers.Web3Provider(window.ethereum);
-const provider = await detectEthereumProvider();
+const provider = detectEthereumProvider();
 
 function App() {
   const [userAccount, setUserAccount] = useState(null);
