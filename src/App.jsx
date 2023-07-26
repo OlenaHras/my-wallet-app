@@ -32,7 +32,6 @@ function App() {
     } else {
       setIsConnected(false);
       chainChangedHandler();
-      // window.location.reload();
     }
   };
 

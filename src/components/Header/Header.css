@@ -1,6 +1,5 @@
 .header {
   display: flex;
-  /* width: 100%; */
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
@@ -11,9 +10,5 @@
 .connect-button{
   border: 2px solid rgb(175, 217, 242)
 }
-/* .connect-button:hover{
-  border: 2px solid rgb(147, 203, 235);
-  background-color: antiquewhite;
-  
-} */
+
 
