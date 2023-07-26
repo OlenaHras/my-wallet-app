@@ -16,9 +16,10 @@ function App() {
 
   const onConnect = async () => {
     setIsLoading(true);
+
     const ethereum = MMSDK.getProvider();
     if (!isConnected) {
-      if (ethereum) {
+      if (ethereum && ethereum.isMetaMask) {
         ethereum.request({ method: "eth_requestAccounts" }).then((account) => {
           setUserAccount(account[0]);
           getBalance(account[0]);
@@ -73,9 +74,8 @@ function App() {
       })
       .finally(() => {
         setIsLoading(false);
-        // getBalance(userAccount);
+        getBalance(userAccount);
       });
-    getBalance(userAccount);
   };
 
   return (
@@ -112,6 +112,9 @@ function App() {
           },
         }}
       />
+      <div className="repository-link">
+        <a href="https://github.com/OlenaHras/my-wallet-app">Repository</a>
+      </div>
     </div>
   );
 }
