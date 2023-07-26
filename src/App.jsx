@@ -16,8 +16,8 @@ function App() {
   const onConnect = async () => {
     const provider = await detectEthereumProvider();
     if (!isConnected) {
+      setIsLoading(true);
       if (provider) {
-        setIsLoading(true);
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((account) => {
