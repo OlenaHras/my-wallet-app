@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import "./Header.css";
-
+import img from "../../../public/wallet.png";
 const Header = ({ handleConnect, userWallet, balance }) => {
   let wallet;
   if (userWallet) {
@@ -10,12 +10,7 @@ const Header = ({ handleConnect, userWallet, balance }) => {
   return (
     <header className="header">
       <a className="logo">
-        <img
-          src="../../assets/wallet.png"
-          alt="logo"
-          width="50px"
-          height="50px"
-        />
+        <img src={img} alt="logo" width="50px" height="50px" />
       </a>
       <button
         className="connect-button"
