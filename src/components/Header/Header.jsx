@@ -19,7 +19,7 @@ const Header = ({ handleConnect, userWallet, balance }) => {
           handleConnect();
         }}
       >
-        {userWallet ? (
+        {userWallet && balance ? (
           <div>
             <span style={{ marginRight: "5px" }}>{balance}</span>
             <span>{wallet}</span>

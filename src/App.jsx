@@ -1,17 +1,13 @@
 import { useState } from "react";
+import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
 import toast, { Toaster } from "react-hot-toast";
 
 import "./App.css";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-// const recipientWallet = "0xAabA029A660294173690968c293aa8d7D0718759";
-
-// const PRIVATE_KEY =
-//   "6baad5bfa24f6449f935728ba84780489c1fdd2feb983f1c657d1e54bb5ae6a8";
-// const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+// const provider = new ethers.providers.Web3Provider(window.ethereum);
+const provider = await detectEthereumProvider();
 
 function App() {
   const [userAccount, setUserAccount] = useState(null);
@@ -21,8 +17,7 @@ function App() {
 
   const onConnect = async () => {
     if (!isConnected) {
-      if (window.ethereum) {
-        //якщо є MetaMask
+      if (provider) {
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((account) => {
@@ -47,14 +42,17 @@ function App() {
 
   const getBalance = async (account) => {
     // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const balance = await provider.getBalance(account);
+    const balance = await window.ethereum.request({
+      method: "eth_getBalance",
+      params: [account, "latest"],
+    });
     const balanceInEth = ethers.utils.formatEther(balance);
     setBalance((+balanceInEth).toFixed(3));
   };
 
   const handleTransaction = async (transactionInfo) => {
     setIsLoading(true);
-    console.log(ethers.utils.parseEther(transactionInfo.tokens));
+
     window.ethereum
       .request({
         method: "eth_sendTransaction",
@@ -69,10 +67,10 @@ function App() {
           },
         ],
       })
-      .then((txHash) => {
+      .then(() => {
         setIsLoading(false);
         toast.success("Transaction is success!");
-        console.log(txHash);
+        // console.log(txHash);
       })
       .catch(() => {
         setIsLoading(false);
