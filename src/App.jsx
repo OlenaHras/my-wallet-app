@@ -7,7 +7,6 @@ import "./App.css";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
 // const provider = new ethers.providers.Web3Provider(window.ethereum);
-const provider = detectEthereumProvider();
 
 function App() {
   const [userAccount, setUserAccount] = useState(null);
@@ -16,6 +15,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
 
   const onConnect = async () => {
+    const provider = await detectEthereumProvider();
     if (!isConnected) {
       if (provider) {
         window.ethereum
