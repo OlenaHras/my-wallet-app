@@ -1,11 +1,12 @@
 import { useState } from "react";
-import detectEthereumProvider from "@metamask/detect-provider";
+import { MetaMaskSDK } from "@metamask/sdk";
 import { ethers } from "ethers";
 import toast, { Toaster } from "react-hot-toast";
 
 import "./App.css";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
+const MMSDK = new MetaMaskSDK();
 
 function App() {
   const [userAccount, setUserAccount] = useState(null);
@@ -15,19 +16,17 @@ function App() {
 
   const onConnect = async () => {
     setIsLoading(true);
-    const provider = await detectEthereumProvider();
+    const ethereum = MMSDK.getProvider();
     if (!isConnected) {
-      if (provider) {
-        window.ethereum
-          .request({ method: "eth_requestAccounts" })
-          .then((account) => {
-            setUserAccount(account[0]);
-            getBalance(account[0]);
-            setIsLoading(false);
-          });
+      if (ethereum) {
+        ethereum.request({ method: "eth_requestAccounts" }).then((account) => {
+          setUserAccount(account[0]);
+          getBalance(account[0]);
+          setIsLoading(false);
+        });
         setIsConnected(true);
-        window.ethereum.on("accountChanged", onConnect);
-        window.ethereum.on("chainChanged", chainChangedHandler);
+        ethereum.on("accountChanged", onConnect);
+        ethereum.on("chainChanged", chainChangedHandler);
       } else {
         toast.error("Please install MetaMask!");
         setIsLoading(false);
@@ -54,7 +53,7 @@ function App() {
   const handleTransaction = async (transactionInfo) => {
     setIsLoading(true);
 
-    window.ethereum
+    await window.ethereum
       .request({
         method: "eth_sendTransaction",
         params: [
@@ -68,15 +67,15 @@ function App() {
           },
         ],
       })
-      .then(() => {
-        setIsLoading(false);
-        toast.success("Transaction is success!");
-      })
+      .then(() => toast.success("Transaction is success!"))
       .catch(() => {
-        setIsLoading(false);
-
         toast.error("Oops...something went wrong! Try again");
+      })
+      .finally(() => {
+        setIsLoading(false);
+        // getBalance(userAccount);
       });
+    getBalance(userAccount);
   };
 
   return (
@@ -86,6 +85,7 @@ function App() {
         userWallet={userAccount}
         balance={balance}
         isLoading={isLoading}
+        isConnected={isConnected}
       />
       <Form
         onSubmit={handleTransaction}

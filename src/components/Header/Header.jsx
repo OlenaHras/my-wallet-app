@@ -2,7 +2,13 @@
 import "./Header.css";
 import img from "../../assets/wallet.png";
 import Loader from "../Loader/Loader";
-const Header = ({ handleConnect, userWallet, balance, isLoading }) => {
+const Header = ({
+  handleConnect,
+  userWallet,
+  balance,
+  isLoading,
+  isConnected,
+}) => {
   let wallet;
   if (userWallet) {
     wallet = `${userWallet.slice(0, 5)}...${userWallet.slice(-4)}`;
@@ -19,7 +25,7 @@ const Header = ({ handleConnect, userWallet, balance, isLoading }) => {
           handleConnect();
         }}
       >
-        {isLoading ? (
+        {isLoading && !isConnected ? (
           <Loader />
         ) : userWallet && balance ? (
           <div>
